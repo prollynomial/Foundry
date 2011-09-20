@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">Hello World, APTActivity!</string>
+    <string name="app_name">Foundry</string>
+    <string name="page_label_homepage">Foundry</string>
+    <string name="page_label_pacman">My Packages</string>
+    <string name="page_label_browse">Packages</string>
+    <string name="page_label_sources">Sources</string>
+    <string name="list_empty">Whoops!\nNothing here right now!</string>
+</resources>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:noshufou="http://schemas.android.com/apk/res/com.adamcarruthers.foundry"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+	<FrameLayout
+		android:id="@+id/top_bar"
+		android:layout_height="@dimen/top_bar_height"
+		android:layout_width="fill_parent"
+		android:orientation="horizontal"
+		android:background="@color/top_bar_colour"
+		android:gravity="center_vertical" >
+		<LinearLayout
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:layout_gravity="left" >
+			<ImageView
+				android:layout_height="@dimen/top_bar_height"
+				android:layout_width="wrap_content"
+				android:src="@drawable/ic_menu_f_line_normal" />
+			<ImageView
+				android:layout_height="@dimen/top_bar_height"
+				android:layout_width="wrap_content"
+				android:src="@drawable/ic_menu_f_line_normal" />
+			<ImageView
+				android:layout_height="@dimen/top_bar_height"
+				android:layout_width="wrap_content"
+				android:src="@drawable/ic_menu_f_normal" />
+		</LinearLayout>
+		<LinearLayout
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:layout_gravity="right" >
+			<ImageButton
+				android:id="@+id/share_button"
+				android:layout_height="@dimen/top_bar_height"
+				android:layout_width="wrap_content"
+				android:background="@android:color/transparent"
+				android:src="@drawable/ic_menu_share_normal" />
+			<ImageButton
+				android:id="@+id/search_button"
+				android:layout_height="@dimen/top_bar_height"
+				android:layout_width="wrap_content"
+				android:background="@android:color/transparent"
+				android:src="@drawable/ic_menu_search_normal"
+				android:paddingRight="10dip" />
+		</LinearLayout>
+	</FrameLayout>
+	<com.adamcarruthers.foundry.widget.PagerHeader
+		android:id="@+id/pager_header"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/pager_header_height"
+        noshufou:backgroundColor="@color/pager_header_background_color"
+        noshufou:activeTextColor="@color/pager_header_active_text_color"
+        noshufou:inactiveTextColor="@color/pager_header_inactive_text_color" />
+        
+    <com.adamcarruthers.foundry.widget.ViewPagerCompat
+        android:id="@+id/pager"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@android:color/white" />
+</LinearLayout>
