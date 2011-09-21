@@ -11,13 +11,13 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.ImageView;
+import android.widget.ImageButton;
 
 import com.adamcarruthers.foundry.apt.SourceManager;
 import com.adamcarruthers.foundry.widget.PagerHeader;
 
 public class APTActivity extends FragmentActivity {
-	private ImageView mShare;
+	private ImageButton mShare;
     private ViewPager mPager;
     private SourceManager srcMan;
 
@@ -35,7 +35,7 @@ public class APTActivity extends FragmentActivity {
         	// TODO show error
         }
         
-        mShare = (ImageView)findViewById(R.id.search_button);
+        mShare = (ImageButton)findViewById(R.id.share_button);
         mShare.setOnClickListener(new OnClickListener(){
 	        @Override
 			public void onClick(View v) {
