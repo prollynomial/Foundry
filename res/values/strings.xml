@@ -7,4 +7,5 @@
     <string name="page_label_browse">Packages</string>
     <string name="page_label_sources">Sources</string>
     <string name="list_empty">Whoops!\nNothing here right now!</string>
+    <string name="add_source">Add source</string>
 </resources>
