@@ -63,7 +63,7 @@ public class SourceManager {
 			
 			String line = "";
 			
-			while ((line = bf.readLine()) != null) {
+			while (((line = bf.readLine()) != null) && (line != "")) {
 				sourceList.add(line);
 			}
 		} finally {

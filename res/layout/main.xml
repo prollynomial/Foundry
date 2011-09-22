@@ -37,13 +37,13 @@
 				android:layout_height="@dimen/top_bar_height"
 				android:layout_width="wrap_content"
 				android:background="@android:color/transparent"
-				android:src="@drawable/ic_menu_share_normal" />
+				android:src="@drawable/share_button" />
 			<ImageButton
 				android:id="@+id/search_button"
 				android:layout_height="@dimen/top_bar_height"
 				android:layout_width="wrap_content"
 				android:background="@android:color/transparent"
-				android:src="@drawable/ic_menu_search_normal"
+				android:src="@drawable/search_button"
 				android:paddingRight="10dip" />
 		</LinearLayout>
 	</FrameLayout>
