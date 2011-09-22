@@ -73,7 +73,6 @@ public class SourceManager {
 	}
 
 	public void addSource(String source) throws IOException {
-		if (!source.contains("http://")) source = "http://" + source;
 		sourceList.add("deb "
 				+ (source.startsWith("http://") ? source : ("http://" + source))
 				+ " android/"
