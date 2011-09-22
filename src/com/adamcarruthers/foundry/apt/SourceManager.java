@@ -32,7 +32,7 @@ public class SourceManager {
 			foundryList = new File(dirs, "foundry.list");
 			foundryList.createNewFile();
 			
-			sourceList.add("deb http://apt.sudoadam.com/ android/" + Utils.versionNameToString(Build.VERSION.SDK_INT) + " main");
+			addSource("http://apt.sudoadam.com/");
 			writeSourcesToDisk();
 		} else {
 			// foundry.list exists, so populate sourceList! NAO!
@@ -73,7 +73,12 @@ public class SourceManager {
 	}
 
 	public void addSource(String source) throws IOException {
-		sourceList.add(source);
+		if (!source.contains("http://")) source = "http://" + source;
+		sourceList.add("deb "
+				+ (source.startsWith("http://") ? source : ("http://" + source))
+				+ " android/"
+				+ Utils.versionNameToString(Build.VERSION.SDK_INT)
+				+ " main");
 		writeSourcesToDisk();
 	}
 	
