@@ -8,4 +8,6 @@ public class Constants {
 	
 	public static final int SPEED_OF_LIGHT = 299792458;
 	public static final int SPEED_OF_NEUTRINOS = 299799953;
+	
+	public static final int HOMEPAGE_TAB_ID = 1;
 }
