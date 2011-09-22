@@ -75,6 +75,7 @@ public class SourceManager {
 	public void addSource(String source) throws IOException {
 		sourceList.add("deb "
 				+ (source.startsWith("http://") ? source : ("http://" + source))
+				+ (source.endsWith("/") ? source : (source + "/"))
 				+ " android/"
 				+ Utils.versionNameToString(Build.VERSION.SDK_INT)
 				+ " main");
