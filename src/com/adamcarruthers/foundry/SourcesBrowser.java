@@ -100,10 +100,13 @@ public class SourcesBrowser extends ListFragment {
             }
             
             ImageView image = (ImageView) v.findViewById(R.id.source_list_item_image);
-            TextView text = (TextView) v.findViewById(R.id.source_list_item_text);
+            TextView name = (TextView) v.findViewById(R.id.source_list_item_name);
+            TextView address = (TextView) v.findViewById(R.id.source_list_item_address);
 
             Item it = items.get(position);
-            text.setText((String) it);
+            String[] parts = ((String) it).split(" ");
+            name.setText(parts[1]);
+            address.setText(parts[2]);
             image.setImageResource(R.drawable.source_icon);
 
             return v;
