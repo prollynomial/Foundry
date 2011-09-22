@@ -20,12 +20,15 @@ public class APTActivity extends FragmentActivity {
 	private ImageButton mShare;
     private ViewPager mPager;
     private SourceManager srcMan;
+    private Context mContext;
 
 	/** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        
+        mContext = getApplicationContext();
         
         try {
         	// get SourceManager for refreshing sources/refreshing package cache
@@ -39,7 +42,7 @@ public class APTActivity extends FragmentActivity {
         mShare.setOnClickListener(new OnClickListener(){
 	        @Override
 			public void onClick(View v) {
-	        	startActivity(Utils.Share());
+	        	startActivity(Utils.share(mContext));
 	         }
 	    });
         

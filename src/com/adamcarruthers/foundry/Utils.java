@@ -1,5 +1,6 @@
 package com.adamcarruthers.foundry;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 
@@ -47,14 +48,12 @@ public class Utils {
 		return null;
 	}
 	
-	public static Intent Share() {
+	public static Intent share(Context context) {
 	     final Intent intent = new Intent(Intent.ACTION_SEND);
 
 	     intent.setType("text/plain");
-	     //intent.putExtra(Intent.EXTRA_SUBJECT, subject);
-	     String SHARE = "Check out Foundry at -url-";
-	     intent.putExtra(Intent.EXTRA_TEXT, SHARE);
+	     intent.putExtra(Intent.EXTRA_TEXT, context.getResources().getString(R.string.share_text));
 	     
-	     return Intent.createChooser(intent, "Share:");
+	     return Intent.createChooser(intent, context.getResources().getString(R.string.share_dialog_title));
 	}
 }

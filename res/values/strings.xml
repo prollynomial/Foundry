@@ -8,4 +8,6 @@
     <string name="page_label_sources">Sources</string>
     <string name="list_empty">Whoops!\nNothing here right now!</string>
     <string name="add_source">Add source</string>
+    <string name="share_text">Check out Foundry \'insert catch phrase here\' \'insert URL here\'</string>
+    <string name="share_dialog_title">Share Foundry via</string>
 </resources>
