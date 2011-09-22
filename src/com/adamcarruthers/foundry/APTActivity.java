@@ -58,7 +58,6 @@ public class APTActivity extends FragmentActivity {
         pagerAdapter.addPage(PackageBrowser.class, R.string.page_label_browse);
         pagerAdapter.addPage(SourcesBrowser.class, R.string.page_label_sources);
         
-        
         // set the adapter to display our homepage tab
         pagerAdapter.setDisplayedPage(Constants.HOMEPAGE_TAB_ID);
     }
