@@ -9,11 +9,15 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.ImageButton;
 
 import com.adamcarruthers.foundry.apt.SourceManager;
 import com.adamcarruthers.foundry.widget.PagerHeader;
 
 public class APTActivity extends FragmentActivity {
+	private ImageButton mShare;
     private ViewPager mPager;
     private SourceManager srcMan;
 
@@ -31,7 +35,13 @@ public class APTActivity extends FragmentActivity {
         	// TODO show error
         }
         
-        
+        mShare = (ImageButton)findViewById(R.id.share_button);
+        mShare.setOnClickListener(new OnClickListener(){
+	        @Override
+			public void onClick(View v) {
+	        	startActivity(Utils.Share());
+	         }
+	    });
         
         mPager = (ViewPager)findViewById(R.id.pager);
         PagerAdapter pagerAdapter = new PagerAdapter(this,
