@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -31,6 +32,12 @@ public class APTActivity extends FragmentActivity {
         setContentView(R.layout.main);
         
         mContext = getApplicationContext();
+        
+        StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
+        .detectAll()
+        .penaltyLog()
+        .penaltyDialog()
+        .build());
         
         try {
         	// get SourceManager for refreshing sources/refreshing package cache
