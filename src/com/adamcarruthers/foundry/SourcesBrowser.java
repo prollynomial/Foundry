@@ -8,9 +8,11 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.ListFragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -38,14 +40,9 @@ public class SourcesBrowser extends ListFragment {
 		
 		mContext = getActivity().getApplicationContext();
 		
-		try {
-			srcMan = new SourceManager();
-		} catch(IOException e) {
-			e.printStackTrace();
-			// TODO show something in the UI
-		}
+		sources = new ArrayList<String>();
 		
-		setListAdapter(new CustomArrayAdapter<String>(mContext, R.layout.source_list_item, srcMan.getSourceList()));
+		new GetSourcesFromDisk().execute();
 		
         View view = inflater.inflate(R.layout.source_browser, container, false);
         return view;
@@ -72,7 +69,6 @@ public class SourcesBrowser extends ListFragment {
 			    return true;
 			}
 		}
-		
 		return false;
 	}
 
@@ -113,6 +109,33 @@ public class SourcesBrowser extends ListFragment {
         }
 	}
 	
+	public class GetSourcesFromDisk extends AsyncTask<Void, Void, ArrayList<String>> {
+		@Override
+		protected void onPreExecute() {
+			// TODO set up custom loading thing
+		}
+		
+		@Override
+		protected ArrayList<String> doInBackground(Void... params) {
+			try {
+				srcMan = new SourceManager();
+			} catch (IOException e) {
+				// TODO change custom loading thing to display error and persist
+				e.printStackTrace();
+				Log.e("FOUNDRY", "Couldn't create SourceManager!!");
+			}
+			return srcMan.getSourceList();
+		}
+		
+		
+		@Override
+		protected void onPostExecute(ArrayList<String> result) {
+			// TODO clear up loading screen
+			sources.addAll(result);
+			setListAdapter(new CustomArrayAdapter<String>(mContext, R.layout.source_list_item, sources));
+		}
+	}
+	
 	// display a Dialog for adding sources
 	public static class AddSourceDialog extends DialogFragment {
 		@Override
@@ -125,12 +148,8 @@ public class SourcesBrowser extends ListFragment {
 				.setView(layout)
 				.setPositiveButton(R.string.add_source_dialog_add, new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int which) {
-						try {
-							srcMan.addSource(sourceName.getText().toString());
-						} catch (IOException e) {
-							e.printStackTrace();
-							// TODO show Toast for error
-						}
+						/* TODO add sourceName.getText().toString() to the list and refresh the list
+							this is problematic because we use Asynctask to populate the list. */
 						dialog.dismiss();
 					}
 				})

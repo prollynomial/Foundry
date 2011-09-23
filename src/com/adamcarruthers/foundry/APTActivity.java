@@ -3,7 +3,6 @@ package com.adamcarruthers.foundry;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -13,7 +12,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.ImageButton;
 
 import com.adamcarruthers.foundry.apt.SourceManager;
