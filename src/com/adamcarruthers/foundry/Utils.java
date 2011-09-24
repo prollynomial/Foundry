@@ -1,5 +1,8 @@
 package com.adamcarruthers.foundry;
 
+import java.io.DataOutputStream;
+import java.io.IOException;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -55,5 +58,32 @@ public class Utils {
 	     intent.putExtra(Intent.EXTRA_TEXT, context.getResources().getString(R.string.share_text));
 	     
 	     return Intent.createChooser(intent, context.getResources().getString(R.string.share_dialog_title));
+	}
+	
+	public static boolean isRooted() {
+		Process p;
+		try {
+		   p = Runtime.getRuntime().exec("su");
+		     
+		   DataOutputStream os = new DataOutputStream(p.getOutputStream());
+		   os.writeBytes("echo \"Do I have root?\" >/system/temporary.txt\n");
+		     
+		   os.writeBytes("exit\n");
+		   os.flush();
+		   try {
+		      p.waitFor();
+		      if (p.exitValue() != 255) {
+		    	  return true;
+		      } else {
+		    	  return false;
+		      }
+		   } catch (InterruptedException e) {
+			   e.printStackTrace();
+			   return false;
+		   }
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 }

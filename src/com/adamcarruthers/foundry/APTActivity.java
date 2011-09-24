@@ -3,12 +3,15 @@ package com.adamcarruthers.foundry;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Looper;
 import android.os.StrictMode;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
@@ -17,9 +20,11 @@ import com.adamcarruthers.foundry.widget.PagerHeader;
 
 public class APTActivity extends FragmentActivity {
 	private ImageButton mShare;
+	private ImageButton mSearch;
     private ViewPager mPager;
     private Context mContext;
     private PagerAdapter mPagerAdapter;
+    private boolean mRooted;
 
 	/** Called when the activity is first created. */
     @Override
@@ -35,11 +40,24 @@ public class APTActivity extends FragmentActivity {
         .penaltyDialog()
         .build());
         
+       /* note that we will run the root check on every launch
+    	* as users can root their device without the app being uninstalled
+    	*/
+        new RootCheck().execute();
+        
         mShare = (ImageButton)findViewById(R.id.share_button);
         mShare.setOnClickListener(new OnClickListener(){
 	        @Override
 			public void onClick(View v) {
 	        	startActivity(Utils.share(mContext));
+	         }
+	    });
+        
+        mSearch = (ImageButton)findViewById(R.id.search_button);
+        mSearch.setOnClickListener(new OnClickListener(){
+	        @Override
+			public void onClick(View v) {
+	        	// search packages
 	         }
 	    });
     	
@@ -55,6 +73,11 @@ public class APTActivity extends FragmentActivity {
 
         // set the adapter to display our homepage tab
         mPagerAdapter.setDisplayedPage(Constants.HOMEPAGE_TAB_ID);
+    }
+    
+    public void setRooted(boolean root) {
+    	mRooted = root;
+    	// TODO: set a preference that stores this value
     }
     
     public static class PagerAdapter extends FragmentPagerAdapter
@@ -143,5 +166,18 @@ public class APTActivity extends FragmentActivity {
          public void onHeaderSelected(int position) {
              mPager.setCurrentItem(position);
          }
+    }
+    
+    public class RootCheck extends AsyncTask<Void, Void, Void> {
+    	@Override
+    	protected Void doInBackground(Void... args) {
+    		Looper.prepare();
+    		
+    		if (Utils.isRooted())
+    			setRooted(true);
+    		else
+    			setRooted(false);
+    		return null;
+    	}
     }
 }
