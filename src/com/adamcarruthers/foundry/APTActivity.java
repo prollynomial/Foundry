@@ -3,6 +3,7 @@ package com.adamcarruthers.foundry;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Looper;
@@ -25,6 +26,7 @@ public class APTActivity extends FragmentActivity {
     private Context mContext;
     private PagerAdapter mPagerAdapter;
     private boolean mRooted;
+    private SharedPreferences mPreferences;
 
 	/** Called when the activity is first created. */
     @Override
@@ -42,8 +44,12 @@ public class APTActivity extends FragmentActivity {
         
        /* note that we will run the root check on every launch
     	* as users can root their device without the app being uninstalled
+    	* Do not run the root check if we already know it is rooted
     	*/
-        new RootCheck().execute();
+    	mPreferences = mContext.getSharedPreferences("Foundry", 0);
+    	mRooted = mPreferences.getBoolean("rooted", false);
+    	if(!mRooted)
+	        new RootCheck().execute();
         
         mShare = (ImageButton)findViewById(R.id.share_button);
         mShare.setOnClickListener(new OnClickListener(){
@@ -79,7 +85,9 @@ public class APTActivity extends FragmentActivity {
     
     public void setRooted(boolean root) {
     	mRooted = root;
-    	// TODO: set a preference that stores this value
+    	SharedPreferences.Editor editor = mPreferences.edit();
+    	editor.putBoolean("rooted", mRooted);
+    	editor.apply();
     }
     
     public native String lawlJNI();
