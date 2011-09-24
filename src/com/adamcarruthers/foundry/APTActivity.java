@@ -43,15 +43,15 @@ public class APTActivity extends FragmentActivity {
 	         }
 	    });
     	
-        mPagerAdapter.addPage(PackageManager.class, R.string.page_label_pacman);
-        mPagerAdapter.addPage(Homepage.class, R.string.page_label_homepage);
-        mPagerAdapter.addPage(PackageBrowser.class, R.string.page_label_browse);
-        mPagerAdapter.addPage(SourcesBrowser.class, R.string.page_label_sources);
-        
         mPager = (ViewPager)findViewById(R.id.pager);
         mPagerAdapter = new PagerAdapter(this,
                 mPager,
                 (PagerHeader)findViewById(R.id.pager_header));
+        
+        mPagerAdapter.addPage(PackageManager.class, R.string.page_label_pacman);
+        mPagerAdapter.addPage(Homepage.class, R.string.page_label_homepage);
+        mPagerAdapter.addPage(PackageBrowser.class, R.string.page_label_browse);
+        mPagerAdapter.addPage(SourcesBrowser.class, R.string.page_label_sources);
 
         // set the adapter to display our homepage tab
         mPagerAdapter.setDisplayedPage(Constants.HOMEPAGE_TAB_ID);
