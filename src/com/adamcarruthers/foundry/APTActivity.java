@@ -73,11 +73,19 @@ public class APTActivity extends FragmentActivity {
 
         // set the adapter to display our homepage tab
         mPagerAdapter.setDisplayedPage(Constants.HOMEPAGE_TAB_ID);
+        
+        Log.e("", lawlJNI());
     }
     
     public void setRooted(boolean root) {
     	mRooted = root;
     	// TODO: set a preference that stores this value
+    }
+    
+    public native String lawlJNI();
+    
+    static {
+    	System.loadLibrary("foundry");
     }
     
     public static class PagerAdapter extends FragmentPagerAdapter
