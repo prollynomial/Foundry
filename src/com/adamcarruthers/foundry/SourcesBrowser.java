@@ -149,7 +149,7 @@ public class SourcesBrowser extends ListFragment {
 				.setPositiveButton(R.string.add_source_dialog_add, new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int which) {
 						/* TODO add sourceName.getText().toString() to the list and refresh the list
-							this is problematic because we use Asynctask to populate the list. */
+							this is problematic because we use AsyncTask to populate the list. */
 						dialog.dismiss();
 					}
 				})

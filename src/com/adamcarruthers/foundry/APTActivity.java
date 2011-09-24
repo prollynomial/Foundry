@@ -1,6 +1,5 @@
 package com.adamcarruthers.foundry;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 import android.content.Context;
@@ -14,14 +13,13 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
 
-import com.adamcarruthers.foundry.apt.SourceManager;
 import com.adamcarruthers.foundry.widget.PagerHeader;
 
 public class APTActivity extends FragmentActivity {
 	private ImageButton mShare;
     private ViewPager mPager;
-    private SourceManager srcMan;
     private Context mContext;
+    private PagerAdapter mPagerAdapter;
 
 	/** Called when the activity is first created. */
     @Override
@@ -37,14 +35,6 @@ public class APTActivity extends FragmentActivity {
         .penaltyDialog()
         .build());
         
-        try {
-        	// get SourceManager for refreshing sources/refreshing package cache
-        	srcMan = new SourceManager();
-        } catch (IOException e) {
-        	e.printStackTrace();
-        	// TODO show error
-        }
-        
         mShare = (ImageButton)findViewById(R.id.share_button);
         mShare.setOnClickListener(new OnClickListener(){
 	        @Override
@@ -52,19 +42,19 @@ public class APTActivity extends FragmentActivity {
 	        	startActivity(Utils.share(mContext));
 	         }
 	    });
+    	
+        mPagerAdapter.addPage(PackageManager.class, R.string.page_label_pacman);
+        mPagerAdapter.addPage(Homepage.class, R.string.page_label_homepage);
+        mPagerAdapter.addPage(PackageBrowser.class, R.string.page_label_browse);
+        mPagerAdapter.addPage(SourcesBrowser.class, R.string.page_label_sources);
         
         mPager = (ViewPager)findViewById(R.id.pager);
-        PagerAdapter pagerAdapter = new PagerAdapter(this,
+        mPagerAdapter = new PagerAdapter(this,
                 mPager,
                 (PagerHeader)findViewById(R.id.pager_header));
 
-        pagerAdapter.addPage(PackageManager.class, R.string.page_label_pacman);
-        pagerAdapter.addPage(Homepage.class, R.string.page_label_homepage);
-        pagerAdapter.addPage(PackageBrowser.class, R.string.page_label_browse);
-        pagerAdapter.addPage(SourcesBrowser.class, R.string.page_label_sources);
-        
         // set the adapter to display our homepage tab
-        pagerAdapter.setDisplayedPage(Constants.HOMEPAGE_TAB_ID);
+        mPagerAdapter.setDisplayedPage(Constants.HOMEPAGE_TAB_ID);
     }
     
     public static class PagerAdapter extends FragmentPagerAdapter
@@ -153,6 +143,5 @@ public class APTActivity extends FragmentActivity {
          public void onHeaderSelected(int position) {
              mPager.setCurrentItem(position);
          }
-    	
     }
 }
