@@ -73,6 +73,12 @@ public class Utils {
 		   try {
 		      p.waitFor();
 		      if (p.exitValue() != 255) {
+		    	  // remove the file we just wrote
+		    	  os = new DataOutputStream(p.getOutputStream());
+				  os.writeBytes("rm /system/temporary.txt\n");
+				  os.writeBytes("exit\n");
+				  os.flush();
+				  
 		    	  return true;
 		      } else {
 		    	  return false;
