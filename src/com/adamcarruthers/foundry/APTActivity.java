@@ -37,17 +37,17 @@ public class APTActivity extends FragmentActivity {
         mContext = getApplicationContext();
         
         StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
-        .detectAll()
-        .penaltyLog()
-        .penaltyDialog()
-        .build());
+        	.detectAll()
+        	.penaltyLog()
+        	.penaltyDialog()
+        	.build());
         
        /* note that we will run the root check on every launch
     	* as users can root their device without the app being uninstalled
     	* Do not run the root check if we already know it is rooted
     	*/
-    	mPreferences = mContext.getSharedPreferences("Foundry", 0);
-    	mRooted = mPreferences.getBoolean("rooted", false);
+    	mPreferences = mContext.getSharedPreferences(Constants.SHARED_PREF_NAME, Context.MODE_PRIVATE);
+    	mRooted = mPreferences.getBoolean(Constants.KEY_ROOTED, false);
     	if(!mRooted)
 	        new RootCheck().execute();
         
@@ -79,23 +79,17 @@ public class APTActivity extends FragmentActivity {
 
         // set the adapter to display our homepage tab
         mPagerAdapter.setDisplayedPage(Constants.HOMEPAGE_TAB_ID);
-        
-        Log.e("", lawlJNI());
     }
     
     public void setRooted(boolean root) {
     	mRooted = root;
     	SharedPreferences.Editor editor = mPreferences.edit();
-    	editor.putBoolean("rooted", mRooted);
-    	editor.apply();
+    	editor.putBoolean(Constants.KEY_ROOTED, mRooted);
+    	
+    	// call to maintain compatibility with older SDK versions (pre-gingerbread)
+    	SharedPreferencesCompat.apply(editor);
     }
-    
-    public native String lawlJNI();
-    
-    static {
-    	System.loadLibrary("foundry");
-    }
-    
+
     public static class PagerAdapter extends FragmentPagerAdapter
     	implements ViewPager.OnPageChangeListener, PagerHeader.OnHeaderClickListener {
 

@@ -10,4 +10,8 @@ public class Constants {
 	public static final int SPEED_OF_NEUTRINOS = 299799953;
 	
 	public static final int HOMEPAGE_TAB_ID = 1;
+	
+	public static final String KEY_ROOTED = "rooted";
+	
+	public static final String SHARED_PREF_NAME = "Foundry";
 }
