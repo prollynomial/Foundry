@@ -30,8 +30,8 @@ public class TerminalActivity extends Fragment {
         
         terminalOutput = (TextView) view.findViewById(R.id.terminal_output);
         
-        // TODO: do something for real, this is a stupid thing to do.
-        new ExecuteInShell().execute("ls /system/");
+        // TODO: do some more, this is an awesome thing to do
+        new ExecuteInShell().execute(Constants.WORKING_DIRECTORY + "dpkg --version");
         return view;
     }
 	
@@ -41,43 +41,38 @@ public class TerminalActivity extends Fragment {
 	private class ExecuteInShell extends AsyncTask<String, Void, Void> {
 		@Override
 		protected Void doInBackground(String... cmds) {
-			final Process process;
+			final Process p;
 	        try {
-	        	process = new ProcessBuilder("sh").redirectErrorStream(true).start();
+	        	p = Utils.execute(cmds[0]);
+	        	
 	            BufferedReader stdInput = new BufferedReader(
-	            new InputStreamReader(process.getInputStream()));
-	            BufferedWriter stdOutput = new BufferedWriter(
-	            new OutputStreamWriter(process.getOutputStream()));
-
-	            stdOutput.write(cmds[0] + "; exit\n");
-	            stdOutput.flush();
-	            
-	            Thread thread = new Thread(new Runnable() {
-	          	  public void run() {
-	          		  try {
-	          			  process.waitFor();
-	          		  } catch (InterruptedException e) {
-	          			  e.printStackTrace();
-	          		  }
-	          	  }
-	            });
-	            thread.start();
-	            
-	            final StringBuilder status = new StringBuilder();
-				while (thread.isAlive() || stdInput.ready()) {
-					final String newLine = stdInput.readLine();
-					if (newLine != null) {
-						status.append(newLine + "\n");
-					}
-					getActivity().runOnUiThread(new Runnable() {
-						public void run() {
-							terminalOutput.setText(status.toString());
-						}
-					});
-				}
-	            
+	                    new InputStreamReader(p.getInputStream()));
+	        	
+	        	Thread thread = new Thread(new Runnable() {
+	            	  public void run() {
+	            		  try {
+	            			  p.waitFor();
+	            		  } catch (InterruptedException e) {
+	            			  e.printStackTrace();
+	            		  }
+	            	  }
+	              });
+	              thread.start();
+	        	
+	        	final StringBuilder status = new StringBuilder();
+	    		while (thread.isAlive() || stdInput.ready()) {
+	    			final String newLine = stdInput.readLine();
+	    			if (newLine != null) {
+	    				status.append(newLine + "\n");
+	    			}
+	    			getActivity().runOnUiThread(new Runnable() {
+	    				public void run() {
+	    					terminalOutput.setText(status.toString());
+	    				}
+	    			});
+	    		}
+	        	
 	            stdInput.close();
-	            stdOutput.close();
 	        } catch (Exception e) {
 	     	   e.printStackTrace();
 	        }

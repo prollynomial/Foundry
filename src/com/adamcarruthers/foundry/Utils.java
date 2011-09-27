@@ -2,13 +2,19 @@ package com.adamcarruthers.foundry;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.InputStreamReader;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.os.Build;
+import android.os.Environment;
 
 public class Utils {
 	public static String versionNameToString(int versionCode) {
@@ -94,5 +100,42 @@ public class Utils {
 			e.printStackTrace();
 			return false;
 		}
+	}
+	
+   /*
+	* Courtesy of Daniel Huckaby (HandlerExploit)
+	*/
+	public static void loadBinaryFromAssets(AssetManager assMan, String item) throws Exception {
+		String path = getPath(item);
+		InputStream inputStream = assMan.open(item);
+		OutputStream outputStream = new FileOutputStream(new File(path));
+		byte buffer[] = new byte[1024];
+		int length;
+		while((length = inputStream.read(buffer)) > 0) {
+			outputStream.write(buffer, 0, length);
+		}
+		outputStream.close();
+		inputStream.close();
+		execute("chmod 777 " + path);
+	}
+	
+   /*
+	* Courtesy of Daniel Huckaby (HandlerExploit)
+	*/
+	public static Process execute(String command) throws Exception {
+		final Process process = new ProcessBuilder("sh").redirectErrorStream(true).start();
+		
+        BufferedWriter stdOutput = new BufferedWriter(
+        		new OutputStreamWriter(process.getOutputStream()));
+
+        stdOutput.write(command + "; exit\n");
+        stdOutput.flush();
+        stdOutput.close();
+        
+		return process;
+	}
+	
+    private static String getPath(String item) {
+		return Constants.WORKING_DIRECTORY + item;
 	}
 }

@@ -2,14 +2,10 @@ package com.adamcarruthers.foundry;
 
 import java.util.ArrayList;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -38,13 +34,13 @@ public class APTActivity extends FragmentActivity {
         mContext = getApplicationContext();
         
         // TODO: According to testing, reads and writes are being made on the UI thread. Hunt them down...
-        StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
+        /*StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
         	.detectNetwork()
         	.detectDiskReads()
         	.detectDiskWrites()
         	.penaltyLog()
         	.penaltyDialog()
-        	.build());
+        	.build());*/
         
        /* note that we will run the root check on every launch
     	* as users can root their device without the app being uninstalled
@@ -55,12 +51,15 @@ public class APTActivity extends FragmentActivity {
     	if(!mRooted)
 	        new RootCheck().execute();
     	
+    	// TODO: do this only on first time
+    	new FirstTimeSetup().execute();
+    	
         mShare = (ImageButton)findViewById(R.id.share_button);
         mShare.setOnClickListener(new OnClickListener(){
 	        @Override
 			public void onClick(View v) {
 	        	startActivity(Utils.share(mContext));
-	         }
+	        }
 	    });
         
         mSearch = (ImageButton)findViewById(R.id.search_button);
@@ -75,7 +74,7 @@ public class APTActivity extends FragmentActivity {
         mPagerAdapter = new PagerAdapter(this,
                 mPager,
                 (PagerHeader)findViewById(R.id.pager_header));
-        
+
         mPagerAdapter.addPage(PackageManager.class, R.string.page_label_pacman);
         mPagerAdapter.addPage(Homepage.class, R.string.page_label_homepage);
         mPagerAdapter.addPage(PackageBrowser.class, R.string.page_label_browse);
@@ -190,6 +189,20 @@ public class APTActivity extends FragmentActivity {
     	@Override
     	protected Void doInBackground(Void... args) {
     		setRooted(Utils.isRooted());
+    		return null;
+    	}
+    }
+    
+    public class FirstTimeSetup extends AsyncTask<Void, Void, Void> {
+    	@Override
+    	protected Void doInBackground(Void... args) {
+    		// unpacking methods by Daniel Huckaby (HandlerExploit)
+    		try {
+    			// unpack dpkg, make directories, other general setup
+				Utils.loadBinaryFromAssets(getAssets(), "dpkg");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
     		return null;
     	}
     }

@@ -18,4 +18,6 @@ public class Constants {
 	public static final String KEY_ROOTED = "rooted";
 	
 	public static final String SHARED_PREF_NAME = "Foundry";
+	
+	public static final String WORKING_DIRECTORY = "/data/data/com.adamcarruthers.foundry/";
 }
