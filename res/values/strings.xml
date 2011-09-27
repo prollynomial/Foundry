@@ -14,4 +14,6 @@
     <string name="add_source_dialog_add">Add</string>
     <string name="add_source_dialog_cancel">Cancel</string>
     <string name="add_source_dialog_title">Add Source</string>
+    <string name="page_label_terminal">Terminal</string>
+    <string name="close_tab">Close tab</string>
 </resources>

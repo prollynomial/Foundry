@@ -160,6 +160,10 @@ public class PagerHeader extends ViewGroup {
     public void setOnHeaderClickListener(OnHeaderClickListener listener) {
         mOnHeaderClickListener = listener;
     }
+    
+    public int getDisplayedPage() {
+		return mDisplayedPage;
+    }
 
     public void setChangeOnClick(boolean changeOnClick) {
         mChangeOnClick = changeOnClick;
