@@ -42,11 +42,9 @@ public class TerminalActivity extends Fragment {
 		protected Void doInBackground(String... cmds) {
 			final Process process;
 	        try {
-	        	process = Runtime.getRuntime().exec("sh");
+	        	process = ProcessBuilder("sh").redirectErrorStream(true).start();
 	            BufferedReader stdInput = new BufferedReader(
 	            new InputStreamReader(process.getInputStream()));
-	            BufferedReader stdError = new BufferedReader(
-	            new InputStreamReader(process.getErrorStream()));
 	            BufferedWriter stdOutput = new BufferedWriter(
 	            new OutputStreamWriter(process.getOutputStream()));
 
@@ -65,26 +63,19 @@ public class TerminalActivity extends Fragment {
 	            thread.start();
 	            
 	            final StringBuilder status = new StringBuilder();
-	            boolean firstLoop = true;
-				while (thread.isAlive() || stdInput.ready() || stdError.ready()) {
+				while (thread.isAlive() || stdInput.ready()) {
 					final String newLine = stdInput.readLine();
 					if (newLine != null) {
 						status.append(newLine + "\n");
-					}
-					final String newError = stdError.readLine();
-					if ((newError != null) && !firstLoop) {
-						status.append("\n" + newError);
 					}
 					getActivity().runOnUiThread(new Runnable() {
 						public void run() {
 							terminalOutput.setText(status.toString());
 						}
 					});
-					firstLoop = false;
 				}
 	            
 	            stdInput.close();
-	            stdError.close();
 	            stdOutput.close();
 	        } catch (Exception e) {
 	     	   e.printStackTrace();

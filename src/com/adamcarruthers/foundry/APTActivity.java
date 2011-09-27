@@ -189,10 +189,7 @@ public class APTActivity extends FragmentActivity {
     public class RootCheck extends AsyncTask<Void, Void, Void> {
     	@Override
     	protected Void doInBackground(Void... args) {
-    		if (Utils.isRooted())
-    			setRooted(true);
-    		else
-    			setRooted(false);
+    		setRooted((Utils.isRooted());
     		return null;
     	}
     }
