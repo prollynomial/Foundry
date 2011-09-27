@@ -81,7 +81,7 @@ public class Utils {
 				  return false;
 			  String user = stdout.readLine(); //We only expect one line of output
 			  stdout.close();
-		      if (user == 'root') {
+		      if (user == "root") {
 		    	  return true;
 		      } else {
 		    	  return false;

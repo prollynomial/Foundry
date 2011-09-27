@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import java.lang.ProcessBuilder;
 
 public class TerminalActivity extends Fragment {
 	
@@ -42,7 +43,7 @@ public class TerminalActivity extends Fragment {
 		protected Void doInBackground(String... cmds) {
 			final Process process;
 	        try {
-	        	process = ProcessBuilder("sh").redirectErrorStream(true).start();
+	        	process = new ProcessBuilder("sh").redirectErrorStream(true).start();
 	            BufferedReader stdInput = new BufferedReader(
 	            new InputStreamReader(process.getInputStream()));
 	            BufferedWriter stdOutput = new BufferedWriter(
