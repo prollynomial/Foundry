@@ -63,7 +63,6 @@ public class TerminalActivity extends Fragment {
 	            thread.start();
 	            
 	            final StringBuilder status = new StringBuilder();
-	            boolean firstLoop = true;
 				while (thread.isAlive() || stdInput.ready()) {
 					final String newLine = stdInput.readLine();
 					if (newLine != null) {
@@ -74,7 +73,6 @@ public class TerminalActivity extends Fragment {
 							terminalOutput.setText(status.toString());
 						}
 					});
-					firstLoop = false;
 				}
 	            
 	            stdInput.close();
