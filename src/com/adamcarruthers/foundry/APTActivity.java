@@ -51,8 +51,12 @@ public class APTActivity extends FragmentActivity {
     	if(!mRooted)
 	        new RootCheck().execute();
     	
-    	// TODO: do this only on first time
-    	new FirstTimeSetup().execute();
+		/* I use int here, because if new versions need more changes or
+		 * a different component to be set up, it allows us to specify
+		 * a 'Setup Version'
+		 */
+    	if(mPreferences.getInt(Constants.KEY_FIRST_SETUP, -1) < Constants.KEY_SETUP_VER)
+			new FirstTimeSetup().execute();
     	
         mShare = (ImageButton)findViewById(R.id.share_button);
         mShare.setOnClickListener(new OnClickListener(){
@@ -200,6 +204,9 @@ public class APTActivity extends FragmentActivity {
     		try {
     			// unpack dpkg, make directories, other general setup
 				Utils.loadBinaryFromAssets(getAssets(), "dpkg");
+				SharedPreferences.Editor editor = mPreferences.edit();
+				editor.putInt(Constants.KEY_FIRST_SETUP, Constants.KEY_SETUP_VER);
+				SharedPreferencesCompat.apply(editor);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
