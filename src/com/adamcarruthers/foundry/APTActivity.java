@@ -2,17 +2,18 @@ package com.adamcarruthers.foundry;
 
 import java.util.ArrayList;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Looper;
 import android.os.StrictMode;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
@@ -36,8 +37,11 @@ public class APTActivity extends FragmentActivity {
         
         mContext = getApplicationContext();
         
+        // TODO: According to testing, reads and writes are being made on the UI thread. Hunt them down...
         StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
-        	.detectAll()
+        	.detectNetwork()
+        	.detectDiskReads()
+        	.detectDiskWrites()
         	.penaltyLog()
         	.penaltyDialog()
         	.build());
@@ -50,7 +54,7 @@ public class APTActivity extends FragmentActivity {
     	mRooted = mPreferences.getBoolean(Constants.KEY_ROOTED, false);
     	if(!mRooted)
 	        new RootCheck().execute();
-        
+    	
         mShare = (ImageButton)findViewById(R.id.share_button);
         mShare.setOnClickListener(new OnClickListener(){
 	        @Override
@@ -76,6 +80,7 @@ public class APTActivity extends FragmentActivity {
         mPagerAdapter.addPage(Homepage.class, R.string.page_label_homepage);
         mPagerAdapter.addPage(PackageBrowser.class, R.string.page_label_browse);
         mPagerAdapter.addPage(SourcesBrowser.class, R.string.page_label_sources);
+        mPagerAdapter.addPage(TerminalActivity.class, R.string.page_label_terminal);
 
         // set the adapter to display our homepage tab
         mPagerAdapter.setDisplayedPage(Constants.HOMEPAGE_TAB_ID);
@@ -90,6 +95,9 @@ public class APTActivity extends FragmentActivity {
     	SharedPreferencesCompat.apply(editor);
     }
 
+   /*
+    * Most of this class is Adam Shanks (ChainsDD)
+    */
     public static class PagerAdapter extends FragmentPagerAdapter
     	implements ViewPager.OnPageChangeListener, PagerHeader.OnHeaderClickListener {
 
