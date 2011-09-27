@@ -1,7 +1,10 @@
 package com.adamcarruthers.foundry;
 
-import java.io.DataOutputStream;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.InputStreamReader;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -63,22 +66,22 @@ public class Utils {
 	public static boolean isRooted() {
 		Process p;
 		try {
-		   p = Runtime.getRuntime().exec("su");
-		     
-		   DataOutputStream os = new DataOutputStream(p.getOutputStream());
-		   os.writeBytes("echo \"Do I have root?\" >/system/temporary.txt\n");
-		     
-		   os.writeBytes("exit\n");
-		   os.flush();
+		   p = new ProcessBuilder("su").start();
+		   BufferedWriter stdin = new BufferedWriter(new OutputStreamWriter(p.getOutputStream()));
+		   BufferedReader stdout = new BufferedReader(new InputStreamReader(p.getInputStream()));
+		   
+		   stdin.write("whoami");
+		   stdin.newLine();
+		   stdin.write("exit");
+		   stdin.newLine();
+		   stdin.close();
 		   try {
 		      p.waitFor();
-		      if (p.exitValue() != 255) {
-		    	  // remove the file we just wrote
-		    	  os = new DataOutputStream(p.getOutputStream());
-				  os.writeBytes("rm /system/temporary.txt\n");
-				  os.writeBytes("exit\n");
-				  os.flush();
-				  
+			  if(!stdout.ready())
+				  return false;
+			  String user = stdout.readLine(); //We only expect one line of output
+			  stdout.close();
+		      if (user == 'root') {
 		    	  return true;
 		      } else {
 		    	  return false;
