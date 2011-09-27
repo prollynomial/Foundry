@@ -16,8 +16,6 @@
 
 package com.adamcarruthers.foundry.widget;
 
-import java.util.ArrayList;
-
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
@@ -77,8 +75,6 @@ public class PagerHeader extends ViewGroup {
     private boolean mShowTopShadow;
     private boolean mShowBottomBar;
     private boolean mShowTab;
-    
-    private ArrayList<View> viewList;
 
     private static DisplayMetrics mDisplayMetrics;
 
@@ -90,8 +86,6 @@ public class PagerHeader extends ViewGroup {
     public PagerHeader(Context context, AttributeSet attrs) {
         super(context, attrs);
         mContext = context;
-        
-        viewList = new ArrayList<View>();
 
         Resources resources = context.getResources();
         mDisplayMetrics = resources.getDisplayMetrics();
@@ -156,12 +150,7 @@ public class PagerHeader extends ViewGroup {
         textView.setTextColor(mInactiveTextColor.getColor());
         textView.setTextSize(16);
         textView.setText(label);
-        viewList.add(index, textView);
         addView(textView);
-    }
-    
-    public void remove(int index) {
-    	removeView(viewList.remove(0));
     }
 
     public void setDisplayedPage(int index) {

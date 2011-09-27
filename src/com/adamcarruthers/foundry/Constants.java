@@ -18,6 +18,4 @@ public class Constants {
 	public static final String KEY_ROOTED = "rooted";
 	
 	public static final String SHARED_PREF_NAME = "Foundry";
-	
-	public static final String EXTRAS_REMOVE_ID = "remove_id";
 }
