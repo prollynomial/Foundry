@@ -200,7 +200,6 @@ public class APTActivity extends FragmentActivity {
     		try {
     			// unpack dpkg, make directories, other general setup
 				Utils.loadBinaryFromAssets(getAssets(), "dpkg");
-				Utils.loadBinaryFromAssets(getAssets(), "apt-get");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
