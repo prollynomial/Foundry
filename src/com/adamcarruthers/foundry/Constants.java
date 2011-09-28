@@ -16,6 +16,8 @@ public class Constants {
 	public static final int TERMINAL_TAB_ID = 4;
 	
 	public static final String KEY_ROOTED = "rooted";
+	public static final String KEY_FIRST_SETUP = "first_setup";
+	public static final int KEY_SETUP_VER = 1;
 	
 	public static final String SHARED_PREF_NAME = "Foundry";
 	
