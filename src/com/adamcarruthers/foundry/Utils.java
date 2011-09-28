@@ -14,7 +14,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.os.Build;
-import android.os.Environment;
 
 public class Utils {
 	public static String versionNameToString(int versionCode) {

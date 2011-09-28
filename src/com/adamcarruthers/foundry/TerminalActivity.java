@@ -1,11 +1,8 @@
 package com.adamcarruthers.foundry;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 
-import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,19 +10,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import java.lang.ProcessBuilder;
 
 public class TerminalActivity extends Fragment {
 	
-	private Context mContext;
 	private TextView terminalOutput;
 	
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
-		
-		mContext = getActivity().getApplicationContext();
-		
+            Bundle savedInstanceState) {		
         View view = inflater.inflate(R.layout.terminal, container, false);
         
         terminalOutput = (TextView) view.findViewById(R.id.terminal_output);
