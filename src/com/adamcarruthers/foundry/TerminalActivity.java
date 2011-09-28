@@ -23,7 +23,7 @@ public class TerminalActivity extends Fragment {
         terminalOutput = (TextView) view.findViewById(R.id.terminal_output);
         
         // TODO: do some more, this is an awesome thing to do
-        new ExecuteInShell().execute(Constants.WORKING_DIRECTORY + "dpkg --version");
+        new ExecuteInShell().execute(Constants.WORKING_DIRECTORY + "bin/dpkg --version");
         return view;
     }
 	

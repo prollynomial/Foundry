@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
@@ -203,12 +204,13 @@ public class APTActivity extends FragmentActivity {
     		// unpacking methods by Daniel Huckaby (HandlerExploit)
     		try {
     			// unpack dpkg, make directories, other general setup
-				Utils.loadBinaryFromAssets(getAssets(), "dpkg");
-				SharedPreferences.Editor editor = mPreferences.edit();
+    			Utils.createSubsystem(getResources());
+    			SharedPreferences.Editor editor = mPreferences.edit();
 				editor.putInt(Constants.KEY_FIRST_SETUP, Constants.KEY_SETUP_VER);
 				SharedPreferencesCompat.apply(editor);
 			} catch (Exception e) {
 				e.printStackTrace();
+				Log.e("Foundry", "Error(s) setting up Subsystem! " + e.toString());
 			}
     		return null;
     	}
