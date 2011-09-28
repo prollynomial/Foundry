@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 import android.os.Build;
 import android.os.Environment;
+import android.util.Log;
 
 import com.adamcarruthers.foundry.Utils;
 
@@ -21,6 +22,15 @@ public class SourceManager {
 	File foundryList;
 	
 	public SourceManager() throws IOException {
+		// If SD Card isn't available populate sourceList
+		// with the default and return
+		if(Environment.getExternalStorageState() != Environment.MEDIA_MOUNTED){
+			sourceList.add("deb http://apt.sudoadam.com/ android/"
+						   + Utils.versionNameToString(Build.VERSION.SDK_INT)
+						   + " main");
+			Log.w("FOUNDRY", "SD Card not available");
+			return;
+		}
 		// open /system/etc/apt/sources.list.d/foundry.list
 		File sdcard = Environment.getExternalStorageDirectory();
 		foundryList = new File(sdcard, "/etc/apt/sources.list.d/foundry.list");
