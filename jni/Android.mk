@@ -16,15 +16,7 @@ LOCAL_PATH := $(call my-dir)
 
 include $(CLEAR_VARS)
 
-LOCAL_PRELINK_MODULE := false
-
-LOCAL_MODULE    := libfoundry_jni
-LOCAL_MODULE_TAGS := optional
-
-LOCAL_SRC_FILES := \
-	foundry.c
-
-LOCAL_C_INCLUDES := \
-	$(JNI_H_INCLUDE)
+LOCAL_MODULE    := foundry
+LOCAL_SRC_FILES := foundry.c
 
 include $(BUILD_SHARED_LIBRARY)
