@@ -9,10 +9,13 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.util.Arrays;
+import java.util.List;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
+import android.content.res.Resources;
 import android.os.Build;
 
 public class Utils {
@@ -104,7 +107,7 @@ public class Utils {
    /*
 	* Courtesy of Daniel Huckaby (HandlerExploit)
 	*/
-	public static void loadBinaryFromAssets(AssetManager assMan, String item) throws Exception {
+	public static void loadFilesFromAssets(AssetManager assMan, String item) throws Exception {
 		String path = getPath(item);
 		InputStream inputStream = assMan.open(item);
 		OutputStream outputStream = new FileOutputStream(new File(path));
@@ -115,7 +118,6 @@ public class Utils {
 		}
 		outputStream.close();
 		inputStream.close();
-		execute("chmod 777 " + path);
 	}
 	
    /*
@@ -137,4 +139,23 @@ public class Utils {
     private static String getPath(String item) {
 		return Constants.WORKING_DIRECTORY + item;
 	}
+    
+    public static void createSubsystem(Resources res) throws Exception {
+    	// create the Unix subsystem
+    	List<String> dirs = Arrays.asList(res.getStringArray(R.array.subsystem_folders));
+    	
+    	for (String f : dirs) {
+    		new File(Constants.WORKING_DIRECTORY + f).mkdirs();
+    	}
+    	
+    	List<String> files = Arrays.asList(res.getStringArray(R.array.subsystem_files));
+    	
+    	for (String file : files) {
+    		loadFilesFromAssets(res.getAssets(), file);
+    	}
+    	
+    	// chmod 777 bin and methods
+    	execute("chmod 777 " + Constants.WORKING_DIRECTORY + "bin/*");
+    	execute("chmod 777 " + Constants.WORKING_DIRECTORY + "usr/lib/apt/methods/*");
+    }
 }
