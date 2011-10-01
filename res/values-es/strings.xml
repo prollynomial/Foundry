@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">Hola Mundo! APTActivity!</string>
+    <string name="app_name">Foundry</string>
+    <string name="page_label_homepage">Foundry</string>
+    <string name="page_label_pacman">Mis Paquetes</string>
+    <string name="page_label_browse">Paquetes</string>
+    <string name="page_label_sources">Fuentes</string>
+    <string name="list_empty">Whoops!\nNada aqui ahora mismo!</string>
+    <string name="add_source">Añadir Fuente</string>
+    <string name="share_text">Chequea Foundry \'insert catch phrase here\' \'insert URL here\'</string>
+    <string name="share_dialog_title">Comparte Foundry via</string>
+    <string name="add_source_dialog_hint">Ej: apt.sudoadam.com</string>
+    <string name="add_source_dialog_add">Añadir</string>
+    <string name="add_source_dialog_cancel">Cancelar</string>
+    <string name="add_source_dialog_title">Añadir Fuente</string>
+    <string name="page_label_terminal">Terminal</string>
+    <string name="close_tab">Cerrar ventana</string>
+</resources>
