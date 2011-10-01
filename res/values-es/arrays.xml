@@ -1,0 +1,53 @@
+<resources>
+	<string-array name="subsystem_folders">
+		<item>bin/</item>
+		<item>etc/dpkg/dpkg.cfg.d/</item>
+		<item>lib/</item>
+		<item>usr/share/dpkg/</item>
+		<item>usr/lib/apt/methods/</item>
+		<item>var/lib/dpkg/alternatives/</item>
+		<item>var/lib/dpkg/info/</item>
+		<item>var/lib/dpkg/updates/</item>
+		<item>var/lib/dpkg/parts/</item>
+	</string-array>
+	<string-array name="subsystem_files">
+		<!-- <item>bin/apt-get</item>
+		<item>bin/apt-sortpkgs</item>
+		<item>bin/apt-mark</item>
+		<item>bin/apt-ftparchive</item>
+		<item>bin/apt-extracttemplates</item>
+		<item>bin/apt-config</item>
+		<item>bin/apt-cache</item> -->
+		
+		<item>bin/dpkg</item>
+		<item>bin/dpkg-trigger</item>
+		<item>bin/dpkg-statoverride</item>
+		<item>bin/dpkg-split</item>
+		<item>bin/dpkg-query</item>
+		<item>bin/dpkg-maintscript-helper</item>
+		<item>bin/dpkg-divert</item>
+		<item>bin/dpkg-deb</item>
+		<item>bin/update-alternatives</item>
+		<item>bin/start-stop-daemon</item>
+		<item>bin/install-info</item>
+
+		<item>usr/share/dpkg/triplettable</item>
+		<item>usr/share/dpkg/ostable</item>
+		<item>usr/share/dpkg/cputable</item>
+		
+		<!-- <item>usr/lib/apt/methods/ssh</item>
+		<item>usr/lib/apt/methods/rsh</item>
+		<item>usr/lib/apt/methods/rred</item>
+		<item>usr/lib/apt/methods/mirror</item>
+		<item>usr/lib/apt/methods/lzma</item>
+		<item>usr/lib/apt/methods/https</item>
+		<item>usr/lib/apt/methods/http</item>
+		<item>usr/lib/apt/methods/gzip</item>
+		<item>usr/lib/apt/methods/gpgv</item>
+		<item>usr/lib/apt/methods/ftp</item>
+		<item>usr/lib/apt/methods/file</item>
+		<item>usr/lib/apt/methods/copy</item>
+		<item>usr/lib/apt/methods/cdrom</item>
+		<item>usr/lib/apt/methods/bzip2</item> -->
+	</string-array>
+</resources>
