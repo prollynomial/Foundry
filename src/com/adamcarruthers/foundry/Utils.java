@@ -3,20 +3,22 @@ package com.adamcarruthers.foundry;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.util.Arrays;
 import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.os.Build;
+import android.os.Environment;
 
 public class Utils {
 	public static String versionNameToString(int versionCode) {
@@ -107,19 +109,47 @@ public class Utils {
    /*
 	* Courtesy of Daniel Huckaby (HandlerExploit)
 	*/
-	public static void loadFilesFromAssets(AssetManager assMan, String item) throws Exception {
-		String path = getPath(item);
-		InputStream inputStream = assMan.open(item);
-		OutputStream outputStream = new FileOutputStream(new File(path));
-		byte buffer[] = new byte[1024];
-		int length;
-		while((length = inputStream.read(buffer)) > 0) {
-			outputStream.write(buffer, 0, length);
+	public static void loadFilesFromSubsystemPackage() throws Exception {
+		// check if subsystem is already extracted. We can use any arbitrary file in the subsystem
+		if (!(new File(Constants.WORKING_DIRECTORY, "bin/dpkg").exists())) {
+			// check that subsystem.zip exists
+			if(!(new File(Environment.getExternalStorageDirectory(), "subsystem.zip").exists())) {
+				//download zip
+				// TODO: upload finalized subsystem.zip so that we can download it here
+			} else {
+				//extract zip
+				extractSubsystemZip();
+			}
 		}
-		outputStream.close();
-		inputStream.close();
 	}
 	
+   private static void extractSubsystemZip() throws Exception {
+	   final String extractLocation = Constants.WORKING_DIRECTORY;
+	   
+	   ZipInputStream zipin = new ZipInputStream(
+			   					new FileInputStream(
+			   					new File(Environment.getExternalStorageDirectory(), "subsystem.zip")));
+	   ZipEntry ze = null;
+	   while ((ze = zipin.getNextEntry()) != null) {
+		   if(ze.isDirectory()) { 
+			   File f = new File(extractLocation + ze.getName());
+			   f.mkdirs();
+		   } else { 
+			   OutputStream outputStream = new FileOutputStream(extractLocation + ze.getName());
+			   byte buffer[] = new byte[1024];
+			   int length;
+			   
+			   while((length = zipin.read(buffer)) > 0) {
+				   outputStream.write(buffer, 0, length);
+			   }
+		 
+			   zipin.closeEntry();
+			   outputStream.close();
+		   } 
+	   }
+	   zipin.close();
+   }
+   
    /*
 	* Courtesy of Daniel Huckaby (HandlerExploit)
 	*/
@@ -135,10 +165,6 @@ public class Utils {
         
 		return process;
 	}
-	
-    private static String getPath(String item) {
-		return Constants.WORKING_DIRECTORY + item;
-	}
     
     public static void createSubsystem(Resources res) throws Exception {
     	// create the Unix subsystem
@@ -148,14 +174,12 @@ public class Utils {
     		new File(Constants.WORKING_DIRECTORY + f).mkdirs();
     	}
     	
-    	List<String> files = Arrays.asList(res.getStringArray(R.array.subsystem_files));
-    	
-    	for (String file : files) {
-    		loadFilesFromAssets(res.getAssets(), file);
-    	}
+    	loadFilesFromSubsystemPackage();
     	
     	// chmod 777 bin and methods
     	execute("chmod 777 " + Constants.WORKING_DIRECTORY + "bin/*");
     	execute("chmod 777 " + Constants.WORKING_DIRECTORY + "usr/lib/apt/methods/*");
+    	execute("echo \"\" > " + Constants.WORKING_DIRECTORY + "var/dpkg/status");
+    	execute("echo \"\" > " + Constants.WORKING_DIRECTORY + "var/dpkg/available");
     }
 }

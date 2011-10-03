@@ -210,7 +210,7 @@ public class APTActivity extends FragmentActivity {
 				SharedPreferencesCompat.apply(editor);
 			} catch (Exception e) {
 				e.printStackTrace();
-				Log.e("Foundry", "Error(s) setting up Subsystem! " + e.toString());
+				Log.e("Foundry", "Error(s) setting up subsystem! " + e.toString());
 			}
     		return null;
     	}

@@ -1,0 +1,12 @@
+A note about subsystem:
+	The structure MUST look like this:
+	
+	+-subsystem.zip
+	  |-bin
+	  |-usr
+	  |-apt_0.8.10.3_android-arm.deb
+	  +-dpkg_1.15.8.11_android-arm.deb
+	
+	subsystem.zip MUST be placed in the root of the SD card.
+	
+	This will ensure proper installation.

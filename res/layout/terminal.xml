@@ -10,6 +10,8 @@
 			android:layout_height="wrap_content"
 			android:layout_width="fill_parent"
 			android:textColor="@color/black"
-			android:padding="10dip" />
+			android:padding="10dip"
+			android:typeface="monospace"
+			android:textSize="12px" />
 	</ScrollView>
 </LinearLayout>

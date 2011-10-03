@@ -23,7 +23,10 @@ public class TerminalActivity extends Fragment {
         terminalOutput = (TextView) view.findViewById(R.id.terminal_output);
         
         // TODO: do some more, this is an awesome thing to do
-        new ExecuteInShell().execute(Constants.WORKING_DIRECTORY + "bin/dpkg --version");
+        new ExecuteInShell().execute(
+        		"export PATH=" + Constants.WORKING_DIRECTORY + "bin/:" + Constants.WORKING_DIRECTORY + "sbin/:$PATH;\n\n"
+        		+ "dpkg --force-not-root --admindir=" + Constants.WORKING_DIRECTORY + "var/dpkg/ --install " + Constants.WORKING_DIRECTORY + "dpkg_1.14.31_android-arm.deb;\n\n"
+        		+ "dpkg --admindir=" + Constants.WORKING_DIRECTORY + "var/dpkg/ -l");
         return view;
     }
 	
@@ -52,6 +55,8 @@ public class TerminalActivity extends Fragment {
 	              thread.start();
 	        	
 	        	final StringBuilder status = new StringBuilder();
+	        	
+	        	status.append(cmds[0]);
 	    		while (thread.isAlive() || stdInput.ready()) {
 	    			final String newLine = stdInput.readLine();
 	    			if (newLine != null) {
