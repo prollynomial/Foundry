@@ -205,7 +205,7 @@ public class APTActivity extends FragmentActivity {
     	}
     }
 
-    public class UpdateCheck extends AsyncTask<Void, Void, Void> {
+    public class UpdateCheck extends AsyncTask<Void, Integer, Void> {
     	@Override
     	protected Void doInBackground(Void... args) {
 			int ver;
@@ -226,7 +226,7 @@ public class APTActivity extends FragmentActivity {
 				if(mSubsystemVer >= ver)
 					return null;
 				mSubsystemVer = ver;
-				publishProgress(null);
+				publishProgress(0);
 				Log.i("Foundry", "Found subsystem version " + mSubsystemVer);
 				new DefaultHttpClient()
 					.execute(new HttpGet(Constants.SUBSYSTEM_LOCATION))
@@ -241,6 +241,7 @@ public class APTActivity extends FragmentActivity {
 				editor.putInt(Constants.KEY_SUBSYSTEM, mSubsystemVer);
 				SharedPreferencesCompat.apply(editor);
 				Log.d("Foundry", "Update complete!");
+				publishProgress(1);
 			} catch (Exception e) {
 				e.printStackTrace();
 				Log.e("Foundry", "Error checking for subsystem update! " + e.toString());
@@ -248,12 +249,12 @@ public class APTActivity extends FragmentActivity {
     		return null;
     	}
 		
-		protected void onProgressUpdate(Void... progress){
-			Toast.makeText(mContext, "Updating Foundry", Toast.LENGTH_LONG).show();
-		}
-		
-		protected void onPostExecute(Void result){
-			Toast.makeText(mContext, "Update Complete", Toast.LENGTH_SHORT).show();
+		protected void onProgressUpdate(Integer... progress){
+			if(progress[0] == 0){
+				Toast.makeText(mContext, "Updating Foundry", Toast.LENGTH_LONG).show();
+			}else{
+				Toast.makeText(mContext, "Update Complete", Toast.LENGTH_SHORT).show();
+			}
 		}
     }
 }
