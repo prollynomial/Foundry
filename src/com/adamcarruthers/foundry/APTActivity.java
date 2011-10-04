@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -225,6 +226,7 @@ public class APTActivity extends FragmentActivity {
 				if(mSubsystemVer >= ver)
 					return null;
 				mSubsystemVer = ver;
+				publishProgress(null);
 				Log.i("Foundry", "Found subsystem version " + mSubsystemVer);
 				new DefaultHttpClient()
 					.execute(new HttpGet(Constants.SUBSYSTEM_LOCATION))
@@ -245,5 +247,13 @@ public class APTActivity extends FragmentActivity {
 			}
     		return null;
     	}
+		
+		protected void onProgressUpdate(Void... progress){
+			Toast.makeText(mContext, "Updating Foundry", Toast.LENGTH_LONG).show();
+		}
+		
+		protected void onPostExecute(Void result){
+			Toast.makeText(mContext, "Update Complete", Toast.LENGTH_SHORT).show();
+		}
     }
 }
