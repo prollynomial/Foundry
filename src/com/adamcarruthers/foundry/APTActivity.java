@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -14,6 +15,14 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStreamReader;
+
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
 
 import com.adamcarruthers.foundry.widget.PagerHeader;
 
@@ -25,6 +34,7 @@ public class APTActivity extends FragmentActivity {
     private PagerAdapter mPagerAdapter;
     private boolean mRooted;
     private SharedPreferences mPreferences;
+	private int mSubsystemVer;
 
 	/** Called when the activity is first created. */
     @Override
@@ -49,15 +59,11 @@ public class APTActivity extends FragmentActivity {
     	*/
     	mPreferences = mContext.getSharedPreferences(Constants.SHARED_PREF_NAME, Context.MODE_PRIVATE);
     	mRooted = mPreferences.getBoolean(Constants.KEY_ROOTED, false);
+		mSubsystemVer = mPreferences.getInt(Constants.KEY_SUBSYSTEM, -1);
     	if(!mRooted)
 	        new RootCheck().execute();
-    	
-		/* I use int here, because if new versions need more changes or
-		 * a different component to be set up, it allows us to specify
-		 * a 'Setup Version'
-		 */
-    	if(mPreferences.getInt(Constants.KEY_FIRST_SETUP, -1) < Constants.KEY_SETUP_VER)
-			new FirstTimeSetup().execute();
+
+		new UpdateCheck().execute();
     	
         mShare = (ImageButton)findViewById(R.id.share_button);
         mShare.setOnClickListener(new OnClickListener(){
@@ -197,20 +203,45 @@ public class APTActivity extends FragmentActivity {
     		return null;
     	}
     }
-    
-    public class FirstTimeSetup extends AsyncTask<Void, Void, Void> {
+
+    public class UpdateCheck extends AsyncTask<Void, Void, Void> {
     	@Override
     	protected Void doInBackground(Void... args) {
-    		// unpacking methods by Daniel Huckaby (HandlerExploit)
+			int ver;
     		try {
-    			// unpack dpkg, make directories, other general setup
-    			Utils.createSubsystem(getResources());
+				File subsystemFile = new File(Environment.getExternalStorageDirectory(), "subsystem.zip");
+				if(subsystemFile.exists())
+					subsystemFile.delete();
+				ver = Integer.parseInt(
+				new BufferedReader(
+					new InputStreamReader(
+						new DefaultHttpClient()
+							.execute(new HttpGet(Constants.SUBSYSTEM_MANIFEST))
+							.getEntity()
+							.getContent()
+					))
+					.readLine()
+				);
+				if(mSubsystemVer >= ver)
+					return null;
+				mSubsystemVer = ver;
+				Log.i("Foundry", "Found subsystem version " + mSubsystemVer);
+				new DefaultHttpClient()
+					.execute(new HttpGet(Constants.SUBSYSTEM_LOCATION))
+					.getEntity()
+					.writeTo(
+						new FileOutputStream(subsystemFile)
+				);
+				Log.i("Foundry", "Downloaded subsystem... extracting");
+				Utils.createSubsystem(getResources());
+				subsystemFile.delete();
     			SharedPreferences.Editor editor = mPreferences.edit();
-				editor.putInt(Constants.KEY_FIRST_SETUP, Constants.KEY_SETUP_VER);
+				editor.putInt(Constants.KEY_SUBSYSTEM, mSubsystemVer);
 				SharedPreferencesCompat.apply(editor);
+				Log.d("Foundry", "Update complete!");
 			} catch (Exception e) {
 				e.printStackTrace();
-				Log.e("Foundry", "Error(s) setting up subsystem! " + e.toString());
+				Log.e("Foundry", "Error checking for subsystem update! " + e.toString());
 			}
     		return null;
     	}
