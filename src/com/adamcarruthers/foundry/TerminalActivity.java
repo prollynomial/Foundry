@@ -24,9 +24,8 @@ public class TerminalActivity extends Fragment {
         
         // TODO: do some more, this is an awesome thing to do
         new ExecuteInShell().execute(
-        		"export PATH=" + Constants.WORKING_DIRECTORY + "bin/:" + Constants.WORKING_DIRECTORY + "sbin/:$PATH;\n\n"
-        		+ "dpkg --force-not-root --admindir=" + Constants.WORKING_DIRECTORY + "var/dpkg/ --install " + Constants.WORKING_DIRECTORY + "dpkg_1.14.31_android-arm.deb;\n\n"
-        		+ "dpkg --admindir=" + Constants.WORKING_DIRECTORY + "var/dpkg/ -l");
+        		"export PATH=" + Constants.WORKING_PATH + ":$PATH;\n\n"
+        		+ "apt-get --version");
         return view;
     }
 	
