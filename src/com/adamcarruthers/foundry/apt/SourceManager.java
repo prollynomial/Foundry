@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import android.os.Build;
 import android.os.Environment;
 
+import com.adamcarruthers.foundry.Constants;
 import com.adamcarruthers.foundry.Utils;
 
 public class SourceManager {
