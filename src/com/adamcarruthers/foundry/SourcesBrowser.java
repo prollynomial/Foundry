@@ -131,13 +131,14 @@ public class SourcesBrowser extends ListFragment {
 		@Override
 		protected void onPostExecute(ArrayList<String> result) {
 			// TODO clear up loading screen
+			sources.clear();
 			sources.addAll(result);
 			setListAdapter(new CustomArrayAdapter<String>(mContext, R.layout.source_list_item, sources));
 		}
 	}
 	
 	// display a Dialog for adding sources
-	public static class AddSourceDialog extends DialogFragment {
+	public class AddSourceDialog extends DialogFragment {
 		@Override
 		public Dialog onCreateDialog(Bundle savedInstanceState) {
 			View layout = getActivity().getLayoutInflater().inflate(R.layout.add_source_dialog, null);
@@ -148,8 +149,12 @@ public class SourcesBrowser extends ListFragment {
 				.setView(layout)
 				.setPositiveButton(R.string.add_source_dialog_add, new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int which) {
-						/* TODO add sourceName.getText().toString() to the list and refresh the list
-							this is problematic because we use AsyncTask to populate the list. */
+						try{
+							srcMan.addSource(sourceName.getText().toString());
+						}catch (Exception e) {
+							e.printStackTrace();
+						}
+						new GetSourcesFromDisk().execute();
 						dialog.dismiss();
 					}
 				})
