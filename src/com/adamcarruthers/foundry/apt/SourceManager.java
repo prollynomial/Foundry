@@ -22,8 +22,8 @@ public class SourceManager {
 	
 	public SourceManager() throws IOException {
 		// open /system/etc/apt/sources.list.d/foundry.list
-		File listLocation = Constants.SOURCE_LIST_LOCATION;
-		foundryList = new File(listLocation, "foundry.list");
+		File listLocation = new File(Constants.SOURCE_LIST_LOCATION);
+		foundryList = new File(listLocation, "sources.list");
 		
 		if (!foundryList.exists()) {
 			// create foundry.list from scratch
