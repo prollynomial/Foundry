@@ -122,7 +122,7 @@ public class SourcesBrowser extends ListFragment {
 			} catch (IOException e) {
 				// TODO change custom loading thing to display error and persist
 				e.printStackTrace();
-				Log.e("FOUNDRY", "Couldn't create SourceManager!!");
+				Log.e("Foundry", "Couldn't create SourceManager!!");
 			}
 			return srcMan.getSourceList();
 		}
@@ -151,11 +151,12 @@ public class SourcesBrowser extends ListFragment {
 					public void onClick(DialogInterface dialog, int which) {
 						try{
 							srcMan.addSource(sourceName.getText().toString());
+							new GetSourcesFromDisk().execute();
 						}catch (Exception e) {
 							e.printStackTrace();
+						}finally {
+							dialog.dismiss();
 						}
-						new GetSourcesFromDisk().execute();
-						dialog.dismiss();
 					}
 				})
 				.setNegativeButton(R.string.add_source_dialog_cancel, new DialogInterface.OnClickListener() {
