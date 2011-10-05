@@ -21,6 +21,7 @@ public class Constants {
 	public static final String SHARED_PREF_NAME = "Foundry";
 	
 	public static final String WORKING_DIRECTORY = "/data/data/com.adamcarruthers.foundry/";
+	public static final String SOURCE_LIST_LOCATION = WORKING_DIRECTORY + "etc/apt/sources.list.d/";
 	public static final String WORKING_PATH = Constants.WORKING_DIRECTORY + "bin/:"
 												+ Constants.WORKING_DIRECTORY + "sbin/:"
 												+ Constants.WORKING_DIRECTORY + "usr/lib/dpkg/methods/apt/:"

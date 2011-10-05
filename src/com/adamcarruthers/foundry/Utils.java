@@ -152,10 +152,11 @@ public class Utils {
     public static void createSubsystem(Resources res) throws Exception {
     	// create the Unix subsystem
     	List<String> dirs = Arrays.asList(res.getStringArray(R.array.subsystem_folders));
-    	new File(Constants.WORKING_DIRECTORY).delete();
-		new File(Constants.WORKING_DIRECTORY).mkdirs();
     	for (String f : dirs) {
-    		new File(Constants.WORKING_DIRECTORY + f).mkdirs();
+			File dir = new File(Constants.WORKING_DIRECTORY + f);
+			if(dir.exists())
+				dir.delete();
+    		dir.mkdirs();
     	}
     	
     	extractSubsystemZip();

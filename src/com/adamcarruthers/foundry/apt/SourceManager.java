@@ -22,18 +22,15 @@ public class SourceManager {
 	
 	public SourceManager() throws IOException {
 		// open /system/etc/apt/sources.list.d/foundry.list
-		File sdcard = Environment.getExternalStorageDirectory();
-		foundryList = new File(sdcard, "/etc/apt/sources.list.d/foundry.list");
+		File listLocation = Constants.SOURCE_LIST_LOCATION;
+		foundryList = new File(listLocation, "foundry.list");
 		
 		if (!foundryList.exists()) {
 			// create foundry.list from scratch
-			File dirs = new File(sdcard.getAbsolutePath(), "/etc/apt/sources.list.d");
-			dirs.mkdirs();
-			foundryList = new File(dirs, "foundry.list");
+			listLocation.mkdirs();
 			foundryList.createNewFile();
 			
 			addSource("http://apt.sudoadam.com/");
-			writeSourcesToDisk();
 		} else {
 			// foundry.list exists, so populate sourceList! NAO!
 			populateSourceListFromFile();
