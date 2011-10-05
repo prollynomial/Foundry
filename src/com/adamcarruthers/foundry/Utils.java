@@ -180,7 +180,10 @@ public class Utils {
     	// chmod 777 bin and methods
     	execute("chmod 777 " + Constants.WORKING_DIRECTORY + "bin/*");
     	execute("chmod 777 " + Constants.WORKING_DIRECTORY + "usr/lib/apt/methods/*");
-    	execute("echo \"\" > " + Constants.WORKING_DIRECTORY + "var/dpkg/status");
-    	execute("echo \"\" > " + Constants.WORKING_DIRECTORY + "var/dpkg/available");
+    	execute("chmod 777 " + Constants.WORKING_DIRECTORY + "sbin/*");
+    	execute("chmod 777 " + Constants.WORKING_DIRECTORY + "usr/bin/*");
+    	execute("chmod 777 " + Constants.WORKING_DIRECTORY + "usr/lib/dpkg/methods/apt/*");
+    	execute("cat \"\" > " + Constants.WORKING_DIRECTORY + "var/dpkg/status");
+    	execute("cat \"\" > " + Constants.WORKING_DIRECTORY + "var/dpkg/available");
     }
 }

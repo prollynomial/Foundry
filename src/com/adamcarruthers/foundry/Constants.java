@@ -21,6 +21,12 @@ public class Constants {
 	public static final String SHARED_PREF_NAME = "Foundry";
 	
 	public static final String WORKING_DIRECTORY = "/data/data/com.adamcarruthers.foundry/";
+	public static final String WORKING_PATH = Constants.WORKING_DIRECTORY + "bin/:"
+												+ Constants.WORKING_DIRECTORY + "sbin/:"
+												+ Constants.WORKING_DIRECTORY + "usr/lib/dpkg/methods/apt/:"
+												+ Constants.WORKING_DIRECTORY + "usr/bin/:"
+												+ Constants.WORKING_DIRECTORY + "usr/lib/apt/methods/";
+
 	public static final String SUBSYSTEM_MANIFEST = "http://www.eashwar.com/foundry/manifest.php";
 	public static final String SUBSYSTEM_LOCATION = "http://www.eashwar.com/foundry/subsystem.zip";
 }
