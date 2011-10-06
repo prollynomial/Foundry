@@ -270,7 +270,7 @@ public class SourcesBrowser extends ListFragment {
 			final int id = getArguments().getInt("id");
 			return new AlertDialog.Builder(getActivity())
 				.setMessage(getActivity().getResources().getString(R.string.delete_source_dialog_message))
-			.setPositiveButton("Yes", new DialogInterface.OnClickListener(){
+			.setPositiveButton(R.string.delete_source_dialog_yes, new DialogInterface.OnClickListener(){
 				public void onClick(DialogInterface dialog, int which){
 					try{
 						srcMan.removeSource(id);
@@ -282,7 +282,7 @@ public class SourcesBrowser extends ListFragment {
 					}
 				}
 			})
-			.setNegativeButton("No", new DialogInterface.OnClickListener(){
+			.setNegativeButton(R.string.delete_source_dialog_no, new DialogInterface.OnClickListener(){
 				public void onClick(DialogInterface dialog, int which){
 					dialog.dismiss();
 				}

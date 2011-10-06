@@ -17,6 +17,8 @@
     <string name="edit_source_dialog_title">Editar Fuente</string>
     <string name="edit_source_dialog_action">Guardar</string>
     <string name="delete_source_dialog_message">¿Está seguro que desea eliminar esta fuente?</string>
+    <string name="delete_source_dialog_yes">Sí</string>
+    <string name="delete_source_dialog_no">No</string>
     <string name="page_label_terminal">Terminal</string>
     <string name="close_tab">Cerrar ventana</string>
 </resources>
