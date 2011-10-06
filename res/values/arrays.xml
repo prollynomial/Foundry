@@ -21,4 +21,9 @@
 		<item>var/log/apt/</item>
 		<item>sbin/</item>
 	</string-array>
+    <string-array name="source_context">
+        <item>Edit</item>
+        <item>Delete</item>
+        <item>Open</item>
+    </string-array>
 </resources>

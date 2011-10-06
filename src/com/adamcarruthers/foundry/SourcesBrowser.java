@@ -13,12 +13,14 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -55,6 +57,12 @@ public class SourcesBrowser extends ListFragment {
 	}
 	
 	@Override
+	public void onViewCreated(View view, Bundle savedInstanceState) {
+		super.onViewCreated(view, savedInstanceState);
+		registerForContextMenu(getListView());
+	}
+	
+	@Override
 	public void onCreateOptionsMenu (Menu menu, MenuInflater inflater) {
 		menu.add(0, Constants.MENU_ADD_SOURCE_ID, 0, R.string.add_source).setIcon(android.R.drawable.ic_menu_add);
 		super.onCreateOptionsMenu(menu, inflater);
@@ -67,6 +75,40 @@ public class SourcesBrowser extends ListFragment {
 				DialogFragment newFragment = new AddSourceDialog();
 			    newFragment.show(getFragmentManager(), "dialog");
 			    return true;
+			}
+		}
+		return false;
+	}
+	
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo){
+		super.onCreateContextMenu(menu, v, menuInfo);
+		menu.setHeaderTitle("Options");
+		String[] menuItems = getResources().getStringArray(R.array.source_context);
+		for(int i = 0; i < menuItems.length; i++)
+			menu.add(Menu.NONE, i, i, menuItems[i]);
+	}
+	
+	@Override
+	public boolean onContextItemSelected(MenuItem ctxItem){
+		int ctxId = ctxItem.getItemId();
+		AdapterView.AdapterContextMenuInfo listItem = (AdapterView.AdapterContextMenuInfo)ctxItem.getMenuInfo();
+		switch(ctxId) {
+			// Edit
+			case 0: {
+				DialogFragment editFragment = new EditSourceDialog().newInstance(listItem.position);
+				editFragment.show(getFragmentManager(), "editdialog");
+				return true;
+			}
+			// Delete
+			case 1: {
+				
+				return true;
+			}
+			// Open
+			case 2: {
+				// See onListItemClick below
+				return true;
 			}
 		}
 		return false;
@@ -159,8 +201,50 @@ public class SourcesBrowser extends ListFragment {
 						}
 					}
 				})
-				.setNegativeButton(R.string.add_source_dialog_cancel, new DialogInterface.OnClickListener() {
+				.setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int which) {
+						dialog.dismiss();
+					}
+				})
+				.show();
+		}
+	}
+	
+	// Display a dialog for editing a source
+	public class EditSourceDialog extends DialogFragment {
+		public EditSourceDialog newInstance(int id){
+			EditSourceDialog d = new EditSourceDialog();
+			Bundle args = new Bundle();
+			args.putInt("id", id);
+			args.putString("source", sources.get(id));
+			d.setArguments(args);
+			return d;
+		}
+		@Override
+		public Dialog onCreateDialog(Bundle savedInstanceState){
+			View layout = getActivity().getLayoutInflater().inflate(R.layout.edit_source_dialog, null);
+			final int id = getArguments().getInt("id");
+			final EditText sourceName = (EditText) layout.findViewById(R.id.edit_source_dialog_text);
+			String[] parts = sources.get(id).split(" ");
+			sourceName.setText(parts[1]);
+			
+			return new AlertDialog.Builder(getActivity())
+				.setTitle(getActivity().getResources().getString(R.string.edit_source_dialog_title))
+				.setView(layout)
+				.setPositiveButton(R.string.edit_source_dialog_action, new DialogInterface.OnClickListener(){
+					public void onClick(DialogInterface dialog, int which){
+						try{
+							srcMan.editSource(id, sourceName.getText().toString());
+							new GetSourcesFromDisk().execute();
+						}catch(Exception e){
+							e.printStackTrace();
+						}finally{
+							dialog.dismiss();
+						}
+					}
+				})
+				.setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener(){
+					public void onClick(DialogInterface dialog, int which){
 						dialog.dismiss();
 					}
 				})

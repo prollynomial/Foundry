@@ -69,15 +69,28 @@ public class SourceManager {
 		}
 		return null;
 	}
+	
+	protected String formatSource(String source) {
+		return "deb "
+		+ (source.startsWith("http://") ? source : ("http://" + source))
+		+ (source.endsWith("/") ? "" : "/")
+		+ " android/"
+		+ Utils.versionNameToString(Build.VERSION.SDK_INT)
+		+ " main";
+	}
 
 	public void addSource(String source) throws IOException {
-		sourceList.add("deb "
-				+ (source.startsWith("http://") ? source : ("http://" + source))
-				+ (source.endsWith("/") ? "" : "/")
-				+ " android/"
-				+ Utils.versionNameToString(Build.VERSION.SDK_INT)
-				+ " main");
+		sourceList.add(formatSource(source));
 		writeSourcesToDisk();
+	}
+	
+	public boolean editSource(int id, String source) throws IOException {
+		// Cannot edit imaginary or main sources
+		if(id <= 0)
+			return false;
+		sourceList.set(id, formatSource(source));
+		writeSourcesToDisk();
+		return true;
 	}
 	
 	public ArrayList<String> getSourceList() {
