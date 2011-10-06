@@ -16,6 +16,7 @@
     <string name="add_source_dialog_title">Add Source</string>
     <string name="edit_source_dialog_title">Edit Source</string>
     <string name="edit_source_dialog_action">Save</string>
+    <string name="delete_source_dialog_message">Are you sure you want to delete this source?</string>
     <string name="page_label_terminal">Terminal</string>
     <string name="close_tab">Close tab</string>
     <string name="first_time_setup_dialog_title">Foundry is performing first time setup.</string>

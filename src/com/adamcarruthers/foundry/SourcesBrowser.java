@@ -102,7 +102,8 @@ public class SourcesBrowser extends ListFragment {
 			}
 			// Delete
 			case 1: {
-				
+				DialogFragment deleteFragment = new DeleteSourceDialog().newInstance(listItem.position);
+				deleteFragment.show(getFragmentManager(), "deletedialog");
 				return true;
 			}
 			// Open
@@ -249,6 +250,41 @@ public class SourcesBrowser extends ListFragment {
 					}
 				})
 				.show();
+		}
+	}
+	
+	// Display a dialog to delete a source
+	public class DeleteSourceDialog extends DialogFragment {
+		public DeleteSourceDialog newInstance(int id){
+			DeleteSourceDialog d = new DeleteSourceDialog();
+			Bundle args = new Bundle();
+			args.putInt("id", id);
+			d.setArguments(args);
+			return d;
+		}
+		@Override
+		public Dialog onCreateDialog(Bundle savedInstanceState){
+			final int id = getArguments().getInt("id");
+			return new AlertDialog.Builder(getActivity())
+				.setMessage(getActivity().getResources().getString(R.string.delete_source_dialog_message))
+			.setPositiveButton("Yes", new DialogInterface.OnClickListener(){
+				public void onClick(DialogInterface dialog, int which){
+					try{
+						srcMan.removeSource(id);
+						new GetSourcesFromDisk().execute();
+					}catch(Exception e){
+						e.printStackTrace();
+					}finally{
+						dialog.dismiss();
+					}
+				}
+			})
+			.setNegativeButton("No", new DialogInterface.OnClickListener(){
+				public void onClick(DialogInterface dialog, int which){
+					dialog.dismiss();
+				}
+			})
+			.show();
 		}
 	}
 }
