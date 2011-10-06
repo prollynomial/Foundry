@@ -30,4 +30,8 @@ public class Constants {
 
 	public static final String SUBSYSTEM_MANIFEST = "http://www.eashwar.com/foundry/manifest.php";
 	public static final String SUBSYSTEM_LOCATION = "http://www.eashwar.com/foundry/subsystem.zip";
+	
+	public static final int CONTEXT_MENU_EDIT = 0;
+	public static final int CONTEXT_MENU_DELETE = 1;
+	public static final int CONTEXT_MENU_OPEN = 2;
 }

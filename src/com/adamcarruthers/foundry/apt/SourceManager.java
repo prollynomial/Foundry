@@ -18,6 +18,8 @@ import com.adamcarruthers.foundry.Utils;
 
 public class SourceManager {
 	
+	public static final String[] DEFAULTS = {"http://apt.sudoadam.com/"};
+	
 	private ArrayList<String> sourceList = new ArrayList<String>();
 	File foundryList;
 	
@@ -30,8 +32,9 @@ public class SourceManager {
 			// create foundry.list from scratch
 			listLocation.mkdirs();
 			foundryList.createNewFile();
-			
-			addSource("http://apt.sudoadam.com/");
+			for(String s: DEFAULTS){
+				addSource(s);
+			}
 		} else {
 			// foundry.list exists, so populate sourceList! NAO!
 			populateSourceListFromFile();
@@ -86,7 +89,7 @@ public class SourceManager {
 	
 	public boolean editSource(int id, String source) throws IOException {
 		// Cannot edit imaginary or main sources
-		if(id <= 0)
+		if(id < DEFAULTS.length)
 			return false;
 		sourceList.set(id, formatSource(source));
 		writeSourcesToDisk();
@@ -98,13 +101,10 @@ public class SourceManager {
 	}
 	
 	public boolean removeSource(int id) throws IOException {
-		if (id > 0) {
-			sourceList.remove(id);
-			writeSourcesToDisk();
-			return true;
-		} else {
-			// you can't delete mah repo! <Trollface.tiff>
+		if (id < DEFAULTS.length)
 			return false;
-		}
+		sourceList.remove(id);
+		writeSourcesToDisk();
+		return true;
 	}
 }

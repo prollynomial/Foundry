@@ -83,10 +83,16 @@ public class SourcesBrowser extends ListFragment {
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo){
 		super.onCreateContextMenu(menu, v, menuInfo);
+		AdapterView.AdapterContextMenuInfo listItem = (AdapterView.AdapterContextMenuInfo)menuInfo;
 		menu.setHeaderTitle("Options");
 		String[] menuItems = getResources().getStringArray(R.array.source_context);
-		for(int i = 0; i < menuItems.length; i++)
-			menu.add(Menu.NONE, i, i, menuItems[i]);
+		for(int i = 0; i < menuItems.length; i++){
+			if((listItem.position < srcMan.DEFAULTS.length) && (i != Constants.CONTEXT_MENU_OPEN)){
+				menu.add(Menu.NONE, i, i, menuItems[i]).setEnabled(false);
+			}else{
+				menu.add(Menu.NONE, i, i, menuItems[i]);
+			}
+		}
 	}
 	
 	@Override
@@ -94,20 +100,17 @@ public class SourcesBrowser extends ListFragment {
 		int ctxId = ctxItem.getItemId();
 		AdapterView.AdapterContextMenuInfo listItem = (AdapterView.AdapterContextMenuInfo)ctxItem.getMenuInfo();
 		switch(ctxId) {
-			// Edit
-			case 0: {
+			case Constants.CONTEXT_MENU_EDIT: {
 				DialogFragment editFragment = new EditSourceDialog().newInstance(listItem.position);
 				editFragment.show(getFragmentManager(), "editdialog");
 				return true;
 			}
-			// Delete
-			case 1: {
+			case Constants.CONTEXT_MENU_DELETE: {
 				DialogFragment deleteFragment = new DeleteSourceDialog().newInstance(listItem.position);
 				deleteFragment.show(getFragmentManager(), "deletedialog");
 				return true;
 			}
-			// Open
-			case 2: {
+			case Constants.CONTEXT_MENU_OPEN: {
 				// See onListItemClick below
 				return true;
 			}
