@@ -73,7 +73,7 @@ public class SourcesBrowser extends ListFragment {
 		switch(item.getItemId()) {
 			case Constants.MENU_ADD_SOURCE_ID: {
 				DialogFragment newFragment = new AddSourceDialog();
-			    newFragment.show(getFragmentManager(), "dialog");
+			    newFragment.show(getFragmentManager(), "adddialog");
 			    return true;
 			}
 		}
@@ -84,7 +84,7 @@ public class SourcesBrowser extends ListFragment {
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo){
 		super.onCreateContextMenu(menu, v, menuInfo);
 		AdapterView.AdapterContextMenuInfo listItem = (AdapterView.AdapterContextMenuInfo)menuInfo;
-		menu.setHeaderTitle("Options");
+		menu.setHeaderTitle(R.string.context_menu_title);
 		String[] menuItems = getResources().getStringArray(R.array.source_context);
 		for(int i = 0; i < menuItems.length; i++){
 			if((listItem.position < srcMan.DEFAULTS.length) && (i != Constants.CONTEXT_MENU_OPEN)){

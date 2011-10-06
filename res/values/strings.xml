@@ -23,4 +23,5 @@
     <string name="close_tab">Close tab</string>
     <string name="first_time_setup_dialog_title">Foundry is performing first time setup.</string>
     <string name="first_time_setup_dialog_message">This shouldn\'t take too long...</string>
+    <string name="context_menu_title">Options</string>
 </resources>
