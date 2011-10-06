@@ -1,0 +1,29 @@
+<resources>
+	<string-array name="subsystem_folders">
+		<item>bin/</item>
+		<item>etc/dpkg/dpkg.cfg.d/</item>
+		<item>etc/apt/apt.conf.d/</item>
+		<item>etc/apt/sources.list.d/</item>
+		<item>etc/apt/vendors.list.d/</item>
+		<item>etc/dpkg/origins/</item>
+		<item>share/dpkg/origins/</item>
+		<item>share/locale/</item>
+		<item>share/man/</item>
+		<item>share/perl5/</item>
+		<item>usr/share/dpkg/</item>
+		<item>usr/lib/apt/methods/</item>
+		<item>var/dpkg/alternatives/</item>
+		<item>var/dpkg/info/</item>
+		<item>var/dpkg/updates/</item>
+		<item>var/dpkg/parts/</item>
+		<item>var/dpkg/triggers/</item>
+		<item>var/cache/apt/archives/</item>
+		<item>var/log/apt/</item>
+		<item>sbin/</item>
+	</string-array>
+    <string-array name="source_context">
+        <item>Editar</item>
+        <item>Eliminar</item>
+        <item>Abrir</item>
+    </string-array>
+</resources>
