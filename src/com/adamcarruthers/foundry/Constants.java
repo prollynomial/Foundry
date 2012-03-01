@@ -16,8 +16,7 @@ public class Constants {
 	public static final int TERMINAL_TAB_ID = 4;
 	
 	public static final String KEY_ROOTED = "rooted";
-	public static final String KEY_FIRST_SETUP = "first_setup";
-	public static final int KEY_SETUP_VER = 1;
+	public static final String KEY_SUBSYSTEM = "subsystem_ver";
 	
 	public static final String SHARED_PREF_NAME = "Foundry";
 	
@@ -27,4 +26,12 @@ public class Constants {
 												+ Constants.WORKING_DIRECTORY + "usr/lib/dpkg/methods/apt/:"
 												+ Constants.WORKING_DIRECTORY + "usr/bin/:"
 												+ Constants.WORKING_DIRECTORY + "usr/lib/apt/methods/";
+	public static final String SOURCE_LIST_LOCATION = WORKING_DIRECTORY + "etc/apt/";
+	
+	public static final String SUBSYSTEM_MANIFEST = "http://www.eashwar.com/foundry/manifest.php";
+	public static final String SUBSYSTEM_LOCATION = "http://www.eashwar.com/foundry/subsystem.zip";
+	
+	public static final int CONTEXT_MENU_EDIT = 0;
+	public static final int CONTEXT_MENU_DELETE = 1;
+	public static final int CONTEXT_MENU_OPEN = 2;
 }

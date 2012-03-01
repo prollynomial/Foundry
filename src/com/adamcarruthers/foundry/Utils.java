@@ -105,24 +105,7 @@ public class Utils {
 			return false;
 		}
 	}
-	
-   /*
-	* Courtesy of Daniel Huckaby (HandlerExploit)
-	*/
-	public static void loadFilesFromSubsystemPackage() throws Exception {
-		// check if subsystem is already extracted. We can use any arbitrary file in the subsystem
-		if (!(new File(Constants.WORKING_DIRECTORY, "bin/dpkg").exists())) {
-			// check that subsystem.zip exists
-			if(!(new File(Environment.getExternalStorageDirectory(), "subsystem.zip").exists())) {
-				//download zip
-				// TODO: upload finalized subsystem.zip so that we can download it here
-			} else {
-				//extract zip
-				extractSubsystemZip();
-			}
-		}
-	}
-	
+
    private static void extractSubsystemZip() throws Exception {
 	   final String extractLocation = Constants.WORKING_DIRECTORY;
 	   
@@ -169,12 +152,14 @@ public class Utils {
     public static void createSubsystem(Resources res) throws Exception {
     	// create the Unix subsystem
     	List<String> dirs = Arrays.asList(res.getStringArray(R.array.subsystem_folders));
-    	
     	for (String f : dirs) {
-    		new File(Constants.WORKING_DIRECTORY + f).mkdirs();
+			File dir = new File(Constants.WORKING_DIRECTORY + f);
+			if(dir.exists())
+				dir.delete();
+    		dir.mkdirs();
     	}
     	
-    	loadFilesFromSubsystemPackage();
+    	extractSubsystemZip();
     	
     	// chmod 777 bin and methods
     	execute("chmod 777 " + Constants.WORKING_DIRECTORY + "bin/*");

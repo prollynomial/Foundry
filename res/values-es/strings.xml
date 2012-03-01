@@ -10,10 +10,16 @@
     <string name="add_source">Añadir Fuente</string>
     <string name="share_text">Chequea Foundry \'insert catch phrase here\' \'insert URL here\'</string>
     <string name="share_dialog_title">Comparte Foundry via</string>
+    <string name="dialog_cancel">Cancelar</string>
+    <string name="add_source_dialog_title">Añadir Fuente</string>
     <string name="add_source_dialog_hint">Ej: apt.sudoadam.com</string>
     <string name="add_source_dialog_add">Añadir</string>
-    <string name="add_source_dialog_cancel">Cancelar</string>
-    <string name="add_source_dialog_title">Añadir Fuente</string>
+    <string name="edit_source_dialog_title">Editar Fuente</string>
+    <string name="edit_source_dialog_action">Guardar</string>
+    <string name="delete_source_dialog_message">¿Está seguro que desea eliminar esta fuente?</string>
+    <string name="delete_source_dialog_yes">Sí</string>
+    <string name="delete_source_dialog_no">No</string>
     <string name="page_label_terminal">Terminal</string>
     <string name="close_tab">Cerrar ventana</string>
+    <string name="context_menu_title">Opciones</string>
 </resources>

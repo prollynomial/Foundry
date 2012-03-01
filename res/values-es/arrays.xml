@@ -22,8 +22,8 @@
 		<item>sbin/</item>
 	</string-array>
     <string-array name="source_context">
-        <item>Edit</item>
-        <item>Delete</item>
-        <item>Open</item>
+        <item>Editar</item>
+        <item>Eliminar</item>
+        <item>Abrir</item>
     </string-array>
 </resources>

@@ -10,12 +10,18 @@
     <string name="add_source">Add Source</string>
     <string name="share_text">Check out Foundry \'insert catch phrase here\' \'insert URL here\'</string>
     <string name="share_dialog_title">Share Foundry via</string>
+    <string name="dialog_cancel">Cancel</string>
+    <string name="add_source_dialog_title">Add Source</string>
     <string name="add_source_dialog_hint">Ex: apt.sudoadam.com</string>
     <string name="add_source_dialog_add">Add</string>
-    <string name="add_source_dialog_cancel">Cancel</string>
-    <string name="add_source_dialog_title">Add Source</string>
+    <string name="edit_source_dialog_title">Edit Source</string>
+    <string name="edit_source_dialog_action">Save</string>
+    <string name="delete_source_dialog_message">Are you sure you want to delete this source?</string>
+    <string name="delete_source_dialog_yes">Yes</string>
+    <string name="delete_source_dialog_no">No</string>
     <string name="page_label_terminal">Terminal</string>
     <string name="close_tab">Close tab</string>
     <string name="first_time_setup_dialog_title">Foundry is performing first time setup.</string>
     <string name="first_time_setup_dialog_message">This shouldn\'t take too long...</string>
+    <string name="context_menu_title">Options</string>
 </resources>

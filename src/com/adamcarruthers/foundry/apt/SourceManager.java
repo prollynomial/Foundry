@@ -13,27 +13,28 @@ import java.util.ArrayList;
 import android.os.Build;
 import android.os.Environment;
 
+import com.adamcarruthers.foundry.Constants;
 import com.adamcarruthers.foundry.Utils;
 
 public class SourceManager {
+	
+	public static final String[] DEFAULTS = {"http://apt.sudoadam.com/"};
 	
 	private ArrayList<String> sourceList = new ArrayList<String>();
 	File foundryList;
 	
 	public SourceManager() throws IOException {
 		// open /system/etc/apt/sources.list.d/foundry.list
-		File sdcard = Environment.getExternalStorageDirectory();
-		foundryList = new File(sdcard, "/etc/apt/sources.list.d/foundry.list");
+		File listLocation = new File(Constants.SOURCE_LIST_LOCATION);
+		foundryList = new File(listLocation, "sources.list");
 		
 		if (!foundryList.exists()) {
 			// create foundry.list from scratch
-			File dirs = new File(sdcard.getAbsolutePath(), "/etc/apt/sources.list.d");
-			dirs.mkdirs();
-			foundryList = new File(dirs, "foundry.list");
+			listLocation.mkdirs();
 			foundryList.createNewFile();
-			
-			addSource("http://apt.sudoadam.com/");
-			writeSourcesToDisk();
+			for(String s: DEFAULTS){
+				addSource(s);
+			}
 		} else {
 			// foundry.list exists, so populate sourceList! NAO!
 			populateSourceListFromFile();
@@ -71,15 +72,28 @@ public class SourceManager {
 		}
 		return null;
 	}
+	
+	protected String formatSource(String source) {
+		return "deb "
+		+ (source.startsWith("http://") ? source : ("http://" + source))
+		+ (source.endsWith("/") ? "" : "/")
+		+ " android/"
+		+ Utils.versionNameToString(Build.VERSION.SDK_INT)
+		+ " main";
+	}
 
 	public void addSource(String source) throws IOException {
-		sourceList.add("deb "
-				+ (source.startsWith("http://") ? source : ("http://" + source))
-				+ (source.endsWith("/") ? "" : "/")
-				+ " android/"
-				+ Utils.versionNameToString(Build.VERSION.SDK_INT)
-				+ " main");
+		sourceList.add(formatSource(source));
 		writeSourcesToDisk();
+	}
+	
+	public boolean editSource(int id, String source) throws IOException {
+		// Cannot edit imaginary or main sources
+		if(id < DEFAULTS.length)
+			return false;
+		sourceList.set(id, formatSource(source));
+		writeSourcesToDisk();
+		return true;
 	}
 	
 	public ArrayList<String> getSourceList() {
@@ -87,13 +101,10 @@ public class SourceManager {
 	}
 	
 	public boolean removeSource(int id) throws IOException {
-		if (id > 0) {
-			sourceList.remove(id);
-			writeSourcesToDisk();
-			return true;
-		} else {
-			// you can't delete mah repo! <Trollface.tiff>
+		if (id < DEFAULTS.length)
 			return false;
-		}
+		sourceList.remove(id);
+		writeSourcesToDisk();
+		return true;
 	}
 }
